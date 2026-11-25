@@ -1,0 +1,50 @@
+[package]
+name = "nsh-lucide"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0 AND ISC AND MIT"
+description = "Lucide icons for Native Shell (NSH) apps: an nshm that ships only the icons an app uses"
+repository = "https://github.com/huacnlee/nsh-lucide"
+readme = "README.md"
+keywords = ["nsh", "nshm", "lucide", "icons", "svg"]
+categories = ["gui"]
+include = [
+    "/Cargo.toml",
+    "/README.md",
+    "/LICENSE",
+    "/LICENSE-LUCIDE",
+    "/build.rs",
+    "/codegen.rs",
+    "/lucide.json",
+    "/nsh.json",
+    "/icons/*.svg",
+    "/icons/aliases.txt",
+    "/src/**",
+    "/tsx/**",
+]
+
+[workspace]
+
+[lib]
+name = "nsh_lucide"
+
+[features]
+# The whole catalog for lookups by name at run time: `IconName::ALL` and
+# `IconName::from_name`. It links every icon (about 0.7 MiB); leave it off and
+# select names with `icon_set!` instead.
+all = []
+
+[dependencies]
+nsh-core = "0.6.0"
+
+[[example]]
+name = "size_all"
+required-features = ["all"]
+
+[profile.release]
+strip = true
+
+[dev-dependencies]
+nsh-core = { version = "0.6.0", features = ["declarations"] }
+nsh-engine = { version = "0.6.0", default-features = false }
+nsh-testing = { version = "0.6.0", default-features = false }

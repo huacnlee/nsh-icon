@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "packages": [
+    {
+      "name": "nsh-lucide",
+      "version": "0.1.0",
+      "path": "../..",
+      "module": "nsh-lucide",
+      "exports": {
+        "nsh-lucide/icons": "tsx/icons.ts"
+      }
+    }
+  ]
+}
