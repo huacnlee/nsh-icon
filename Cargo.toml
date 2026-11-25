@@ -1,6 +1,6 @@
 [package]
 name = "nsh-icon"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2024"
 license = "Apache-2.0"
 description = "Icons for Native Shell (NSH) apps: the Icon type, icon() and the TSX <Icon>; the icon sets are the nsh-icon-* crates"
@@ -15,13 +15,13 @@ members = ["codegen", "sets/*"]
 resolver = "3"
 
 [workspace.package]
-version = "0.2.0"
+version = "0.2.1"
 edition = "2024"
 repository = "https://github.com/huacnlee/nsh-icon"
 categories = ["gui"]
 
 [workspace.dependencies]
-nsh-icon = { version = "0.2.0", path = "." }
+nsh-icon = { version = "0.2.1", path = "." }
 nsh-core = "0.7.0"
 nsh-engine = { version = "0.7.0", default-features = false }
 nsh-testing = { version = "0.7.0", default-features = false }
