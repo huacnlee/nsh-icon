@@ -2,13 +2,46 @@
   "version": 2,
   "packages": [
     {
-      "name": "nsh-lucide",
+      "name": "nsh-icon",
       "version": "0.1.0",
       "path": "../..",
-      "module": "nsh-lucide",
+      "module": "nsh-icon"
+    },
+    {
+      "name": "nsh-icon-heroicons",
+      "version": "0.1.0",
+      "path": "../../sets/heroicons",
+      "module": "nsh-icon-heroicons/native",
       "exports": {
-        "nsh-lucide/icons": "tsx/icons.ts"
-      }
+        "nsh-icon-heroicons": "tsx/index.ts"
+      },
+      "dependencies": [
+        "nsh-icon"
+      ]
+    },
+    {
+      "name": "nsh-icon-lucide",
+      "version": "0.1.0",
+      "path": "../../sets/lucide",
+      "module": "nsh-icon-lucide/native",
+      "exports": {
+        "nsh-icon-lucide": "tsx/index.ts"
+      },
+      "dependencies": [
+        "nsh-icon"
+      ]
+    },
+    {
+      "name": "nsh-icon-phosphor",
+      "version": "0.1.0",
+      "path": "../../sets/phosphor",
+      "module": "nsh-icon-phosphor/native",
+      "exports": {
+        "nsh-icon-phosphor": "tsx/index.ts"
+      },
+      "dependencies": [
+        "nsh-icon"
+      ]
     }
   ]
 }

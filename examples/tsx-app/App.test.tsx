@@ -7,3 +7,9 @@ test("labeled icons are read out, and a press swaps the theme icon", async () =>
   await app.press("label:Use dark theme");
   await app.waitFor("label:Use light theme");
 });
+
+test("icons of several sets draw together", async () => {
+  const app = await open("./App.tsx");
+  await app.waitFor("label:Heroicons search");
+  await app.waitFor("label:Phosphor home");
+});

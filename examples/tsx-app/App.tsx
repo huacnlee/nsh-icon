@@ -1,6 +1,8 @@
 import { mount, signal, Text, View } from "nsh";
-import { Icon } from "nsh-lucide";
-import { Bell, Moon, Search, Settings, Sun } from "nsh-lucide/icons";
+import { Icon } from "nsh-icon";
+import { MagnifyingGlassSolid, Cog6Tooth } from "nsh-icon-heroicons";
+import { Bell, Moon, Search, Settings, Sun } from "nsh-icon-lucide";
+import { HouseDuotone, HeartFill } from "nsh-icon-phosphor";
 
 function App() {
   const dark = signal(false);
@@ -22,6 +24,12 @@ function App() {
         >
           <Icon icon={dark() ? Moon : Sun} class="text-primary" />
         </View>
+      </View>
+      <View class="flex-row items-center gap-3">
+        <Icon icon={MagnifyingGlassSolid} size={20} label="Heroicons search" class="text-foreground" />
+        <Icon icon={Cog6Tooth} size={20} class="text-foreground" />
+        <Icon icon={HouseDuotone} size={20} label="Phosphor home" class="text-primary" />
+        <Icon icon={HeartFill} size={20} class="text-destructive" />
       </View>
     </View>
   );

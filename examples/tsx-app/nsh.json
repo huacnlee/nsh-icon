@@ -1,11 +1,20 @@
 {
-  "name": "Lucide TSX",
-  "id": "com.example.lucidetsx",
+  "name": "nsh-icon",
+  "id": "com.example.nshicontsx",
   "version": "1.0.0",
   "build": 1,
   "dependencies": {
-    "nsh-lucide": {
+    "nsh-icon": {
       "path": "../.."
+    },
+    "nsh-icon-lucide": {
+      "path": "../../sets/lucide"
+    },
+    "nsh-icon-heroicons": {
+      "path": "../../sets/heroicons"
+    },
+    "nsh-icon-phosphor": {
+      "path": "../../sets/phosphor"
     }
   }
 }

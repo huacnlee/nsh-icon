@@ -1,0 +1,29 @@
+[package]
+name = "nsh-icon-lucide"
+version.workspace = true
+edition.workspace = true
+license = "ISC AND MIT"
+description = "Lucide icons for Native Shell (NSH) apps, drawn by nsh-icon: only the icons an app uses go into its binary and bundle"
+repository.workspace = true
+keywords = ["nsh", "nshm", "icons", "lucide", "svg"]
+categories.workspace = true
+include = ["/Cargo.toml", "/LICENSE", "/nsh.json", "/set.json", "/src/**", "/tsx/**"]
+
+[lib]
+name = "nsh_icon_lucide"
+
+[features]
+# `Lucide::ALL` and `Lucide::from_name`, a lookup by name over the whole set: it
+# links every icon. `icon_set!` links only the icons it lists.
+all = []
+
+[dependencies]
+nsh-core.workspace = true
+nsh-icon.workspace = true
+
+[dev-dependencies]
+nsh-core = { workspace = true, features = ["declarations"] }
+
+[[example]]
+name = "size_all"
+required-features = ["all"]

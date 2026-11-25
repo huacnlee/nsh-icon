@@ -1,0 +1,6 @@
+[package]
+name = "nsh-icon-codegen"
+version = "0.0.0"
+edition = "2024"
+publish = false
+description = "Generates the Rust and TSX sources of the nsh-icon sets from their SVG files"

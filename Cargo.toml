@@ -1,50 +1,42 @@
 [package]
-name = "nsh-lucide"
+name = "nsh-icon"
 version = "0.1.0"
 edition = "2024"
-license = "Apache-2.0 AND ISC AND MIT"
-description = "Lucide icons for Native Shell (NSH) apps: an nshm that ships only the icons an app uses"
-repository = "https://github.com/huacnlee/nsh-lucide"
+license = "Apache-2.0"
+description = "Icons for Native Shell (NSH) apps: the Icon type, icon() and the TSX <Icon>; the icon sets are the nsh-icon-* crates"
+repository = "https://github.com/huacnlee/nsh-icon"
 readme = "README.md"
-keywords = ["nsh", "nshm", "lucide", "icons", "svg"]
+keywords = ["nsh", "nshm", "icons", "svg"]
 categories = ["gui"]
-include = [
-    "/Cargo.toml",
-    "/README.md",
-    "/LICENSE",
-    "/LICENSE-LUCIDE",
-    "/build.rs",
-    "/codegen.rs",
-    "/lucide.json",
-    "/nsh.json",
-    "/icons/*.svg",
-    "/icons/aliases.txt",
-    "/src/**",
-    "/tsx/**",
-]
+include = ["/Cargo.toml", "/README.md", "/LICENSE", "/src/**"]
 
 [workspace]
+members = ["codegen", "sets/*"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+repository = "https://github.com/huacnlee/nsh-icon"
+categories = ["gui"]
+
+[workspace.dependencies]
+nsh-icon = { version = "0.1.0", path = "." }
+nsh-core = "0.6.0"
+nsh-engine = { version = "0.6.0", default-features = false }
+nsh-testing = { version = "0.6.0", default-features = false }
 
 [lib]
-name = "nsh_lucide"
-
-[features]
-# The whole catalog for lookups by name at run time: `IconName::ALL` and
-# `IconName::from_name`. It links every icon (about 0.7 MiB); leave it off and
-# select names with `icon_set!` instead.
-all = []
+name = "nsh_icon"
 
 [dependencies]
-nsh-core = "0.6.0"
+nsh-core.workspace = true
 
-[[example]]
-name = "size_all"
-required-features = ["all"]
+[dev-dependencies]
+nsh-core = { workspace = true, features = ["declarations"] }
+nsh-engine.workspace = true
+nsh-testing.workspace = true
+nsh-icon-lucide = { path = "sets/lucide" }
 
 [profile.release]
 strip = true
-
-[dev-dependencies]
-nsh-core = { version = "0.6.0", features = ["declarations"] }
-nsh-engine = { version = "0.6.0", default-features = false }
-nsh-testing = { version = "0.6.0", default-features = false }
