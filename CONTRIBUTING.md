@@ -131,9 +131,10 @@ A release is a pull request too:
 1. A `release: X.Y.Z` pull request bumps the workspace's `version` in `Cargo.toml` (and `Cargo.lock`), the
    `nsh-icon` requirement of the sets' `nsh.json` when its minor version changes, and the version in the README
    where it appears.
-2. After it merges, tag the merge commit on `main` as `vX.Y.Z`, run `cargo publish -p nsh-icon` first, then
-   `cargo publish` for each `nsh-icon-<set>`, and create the GitHub release from the tag with the changes since the
-   previous release.
+2. After it merges, tag the merge commit on `main` as `vX.Y.Z` and push the tag. The
+   [Release workflow](.github/workflows/release.yml) checks that the tag is the workspace's version, runs the tests,
+   publishes `nsh-icon` and then each `nsh-icon-<set>` to crates.io, and creates the GitHub release with the changes
+   since the previous one. A crate already published at that version is skipped, so a failed run can be re-run.
 
 ## Development and Testing
 
