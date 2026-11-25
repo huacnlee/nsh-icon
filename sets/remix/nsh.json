@@ -4,6 +4,6 @@
     "nsh-icon-remix": "tsx/index.ts"
   },
   "dependencies": {
-    "nsh-icon": "^0.1"
+    "nsh-icon": "^0.2"
   }
 }
