@@ -1,0 +1,9 @@
+{
+  "nsh": ">=0.6",
+  "exports": {
+    "nsh-icon-remix": "tsx/index.ts"
+  },
+  "dependencies": {
+    "nsh-icon": "^0.1"
+  }
+}

@@ -1,24 +1,16 @@
-//! `Icon`: a Lucide icon as a compile-time SVG `data:` URI.
+//! `Icon`: an icon of any set as a compile-time SVG `data:` URI.
 
 use nsh_core::element::{ImageSrc, IntoReactive, Reactive, SharedString};
 
-/// A Lucide icon: `Icon::Search`, `Icon::ChevronDown`, named as
-/// [lucide.dev](https://lucide.dev/icons) and `lucide-react` name them.
+/// An icon: `Lucide::Search` of `nsh-icon-lucide`, `Heroicons::HomeSolid` of
+/// `nsh-icon-heroicons`, or one of an app's own.
 ///
-/// Each icon is an associated constant holding its SVG document as a
-/// `&'static str` `data:` URI, written when the crate builds. An app's
-/// binary holds the icons its code names and none of the others: a constant
-/// no code uses is never compiled in. Nothing is allocated or encoded when
-/// one is drawn; NSH parses its drawing once and shares it with every view
-/// that shows the icon, while one does.
-///
-/// Lucide's old names (`Home`, `Edit`) are kept as deprecated aliases of the
-/// current ones (`House`, `SquarePen`).
-///
-/// A lookup by name at run time needs a table of the icons it can find:
-/// list them with [`icon_set!`](crate::icon_set), or turn on the `all`
-/// feature for [`Icon::ALL`] and [`Icon::from_name`], which link the
-/// whole catalog.
+/// Each icon of a set is an associated constant holding its SVG document as
+/// a `&'static str` `data:` URI. An app's binary holds the icons its code
+/// names and none of the others: a constant no code uses is never compiled
+/// in. Nothing is allocated or encoded when one is drawn; NSH parses its
+/// drawing once and shares it with every view that shows the icon, while
+/// one does.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct Icon {
     name: &'static str,
@@ -26,16 +18,29 @@ pub struct Icon {
 }
 
 impl Icon {
-    const fn new(name: &'static str, data_uri: &'static str) -> Self {
+    /// An icon named `name` whose SVG document is `data_uri`, a
+    /// `data:image/svg+xml` URI drawn with `currentColor`, as the sets'
+    /// constants are made:
+    ///
+    /// ```
+    /// use nsh_icon::Icon;
+    ///
+    /// const DOT: Icon = Icon::new(
+    ///     "dot",
+    ///     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' \
+    ///      fill='currentColor'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3C/svg%3E",
+    /// );
+    /// ```
+    pub const fn new(name: &'static str, data_uri: &'static str) -> Self {
         Self { name, data_uri }
     }
 
-    /// Its Lucide name (`chevron-down`).
+    /// Its name in its set (`chevron-down`).
     pub const fn name(self) -> &'static str {
         self.name
     }
 
-    /// Its SVG document as a `data:image/svg+xml` URI, stroked with
+    /// Its SVG document as a `data:image/svg+xml` URI, drawn with
     /// `currentColor`: an image source for [`nsh_core::element::svg`] (drawn
     /// in the element's text color) and [`nsh_core::element::image`].
     pub const fn data_uri(self) -> &'static str {
@@ -47,23 +52,43 @@ impl Icon {
         ImageSrc::from(self.data_uri)
     }
 
-    /// Its image source drawn with lines `width` units wide out of its 24
-    /// (Lucide's own are 2). It makes a new source, and a drawing NSH caches
-    /// apart from the icon's at width 2.
+    /// Its image source drawn with lines `width` units wide, for an icon of
+    /// a stroked set (Lucide's lines are 2 of its 24 units). It makes a new
+    /// source, which NSH caches apart from the icon's own; a filled icon, or
+    /// a width that is not a positive number, keeps the icon's.
     pub fn src_with_stroke_width(self, width: f32) -> ImageSrc {
-        let width = if width.is_finite() && width > 0.0 { width } else { 2.0 };
-        if width == 2.0 {
-            return self.src();
+        match with_stroke_width(self.data_uri, width) {
+            Some(uri) => ImageSrc::from(uri),
+            None => self.src(),
         }
-        ImageSrc::from(
-            self.data_uri
-                .replacen("stroke-width='2'", &format!("stroke-width='{width}'"), 1),
-        )
     }
 }
 
+/// `uri` with every `stroke-width='…'` set to `width`; `None` when it has
+/// none, has that width already, or `width` is not a positive number.
+pub(crate) fn with_stroke_width(uri: &str, width: f32) -> Option<String> {
+    const ATTRIBUTE: &str = "stroke-width='";
+    if !(width.is_finite() && width > 0.0) || !uri.contains(ATTRIBUTE) {
+        return None;
+    }
+    let width = width.to_string();
+    let mut out = String::with_capacity(uri.len() + 8);
+    let mut rest = uri;
+    let mut changed = false;
+    while let Some(start) = rest.find(ATTRIBUTE) {
+        let value = start + ATTRIBUTE.len();
+        let end = value + rest[value..].find('\'')?;
+        changed |= rest[value..end] != width;
+        out.push_str(&rest[..value]);
+        out.push_str(&width);
+        rest = &rest[end..];
+    }
+    out.push_str(rest);
+    changed.then_some(out)
+}
+
 /// Its [`Icon::data_uri`], borrowed. It makes an icon an [`ImageSrc`] too, and
-/// what `<Icon>`'s `icon` prop takes: `.icon(Icon::Search)`.
+/// what `<Icon>`'s `icon` prop takes: `.icon(Lucide::Search)`.
 impl From<Icon> for SharedString {
     fn from(icon: Icon) -> Self {
         SharedString::from(icon.data_uri)
@@ -76,17 +101,20 @@ impl IntoReactive<ImageSrc> for Icon {
     }
 }
 
-#[cfg(feature = "all")]
-impl Icon {
-    /// Every icon of the catalog, in Lucide name order (`all` feature: it
-    /// links every icon).
-    pub const ALL: &'static [Icon] = ALL;
+#[cfg(test)]
+mod tests {
+    use super::with_stroke_width;
 
-    /// The icon of a Lucide name, current (`house`) or old (`home`); `None`
-    /// for a name Lucide does not have (`all` feature: it links every icon).
-    pub fn from_name(name: &str) -> Option<Icon> {
-        lookup(name)
+    #[test]
+    fn a_stroke_width_replaces_every_one() {
+        let uri = "data:image/svg+xml,%3Csvg stroke-width='2'%3E%3Cpath stroke-width='2'/%3E%3C/svg%3E";
+        assert_eq!(
+            with_stroke_width(uri, 1.5).as_deref(),
+            Some("data:image/svg+xml,%3Csvg stroke-width='1.5'%3E%3Cpath stroke-width='1.5'/%3E%3C/svg%3E")
+        );
+        assert_eq!(with_stroke_width(uri, 2.0), None);
+        assert_eq!(with_stroke_width(uri, f32::NAN), None);
+        assert_eq!(with_stroke_width(uri, 0.0), None);
+        assert_eq!(with_stroke_width("data:image/svg+xml,%3Csvg fill='currentColor'/%3E", 1.0), None);
     }
 }
-
-include!(concat!(env!("OUT_DIR"), "/icons.rs"));

@@ -1,13 +1,13 @@
-//! What `#[native_module("nsh-lucide")]` exports to TSX, read from the
-//! declarations `nsh` writes for an app (`.nsh/types/nsh-lucide.d.ts`).
+//! What `#[native_module("nsh-icon")]` exports to TSX, read from the
+//! declarations `nsh` writes for an app (`.nsh/types/nsh-icon.d.ts`).
 
 fn declarations() -> String {
-    nsh_core::element::declarations(&nsh_lucide::registry(), &[])
+    nsh_core::element::declarations(&nsh_icon::registry(), &[])
 }
 
 #[test]
-fn the_module_is_imported_as_nsh_lucide() {
-    assert_eq!(nsh_lucide::registry().specifier(), Some("nsh-lucide"));
+fn the_module_is_imported_as_nsh_icon() {
+    assert_eq!(nsh_icon::registry().specifier(), Some("nsh-icon"));
 }
 
 #[test]
@@ -26,5 +26,5 @@ fn icon_is_declared_with_its_props() {
 
 #[test]
 fn every_export_is_documented() {
-    assert_eq!(nsh_lucide::registry().undocumented(), Vec::<String>::new());
+    assert_eq!(nsh_icon::registry().undocumented(), Vec::<String>::new());
 }

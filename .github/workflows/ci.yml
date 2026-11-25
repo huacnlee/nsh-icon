@@ -14,8 +14,8 @@ jobs:
         with:
           components: clippy
       - uses: oven-sh/setup-bun@v2
-      - name: Lucide files match the pinned release
-        run: bun script/sync-lucide.ts --check
-      - run: cargo clippy --all-targets --all-features -- -D warnings
-      - run: cargo test
-      - run: cargo test --features all
+      - name: Icon files match the pinned releases
+        run: bun script/sync.ts --check
+      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      - run: cargo test --workspace
+      - run: cargo test --workspace --all-features
