@@ -149,6 +149,8 @@ does.
 
 ## Development
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for what the project accepts, the commit and pull request style, and releases.
+
 ```sh
 cargo test --workspace                     # the sets, headless rendering, TSX declarations
 cargo test --workspace --all-features
