@@ -1342,7 +1342,7 @@ dependencies = [
 
 [[package]]
 name = "nsh-icon"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "nsh-core",
  "nsh-engine",
@@ -1356,7 +1356,7 @@ version = "0.0.0"
 
 [[package]]
 name = "nsh-icon-heroicons"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "nsh-core",
  "nsh-icon",
@@ -1364,7 +1364,7 @@ dependencies = [
 
 [[package]]
 name = "nsh-icon-lucide"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "nsh-core",
  "nsh-icon",
@@ -1372,7 +1372,7 @@ dependencies = [
 
 [[package]]
 name = "nsh-icon-phosphor"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "nsh-core",
  "nsh-icon",
@@ -1380,7 +1380,7 @@ dependencies = [
 
 [[package]]
 name = "nsh-icon-remix"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "nsh-core",
  "nsh-icon",
@@ -1388,7 +1388,7 @@ dependencies = [
 
 [[package]]
 name = "nsh-icon-tabler"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "nsh-core",
  "nsh-icon",
