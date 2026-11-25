@@ -19,7 +19,8 @@ Use it instead of characters (`"⚙"`, `"✕"`, `"›"`) or emoji as icons: thos
 platform, do not follow the theme's stroke and size, and screen readers read them out as text.
 
 ```sh
-nsh add nsh-icon nsh-icon-lucide       # the drawing, and the sets the app uses
+nsh add nsh-icon          # the drawing
+nsh add nsh-icon-lucide   # and each set the app uses, one per command
 ```
 
 ## Names and styles

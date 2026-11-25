@@ -16,7 +16,8 @@ icon of a set with `nsh-icon`.
 already uses, else Lucide:
 
 ```sh
-nsh add nsh-icon nsh-icon-lucide
+nsh add nsh-icon
+nsh add nsh-icon-lucide   # nsh add takes one nshm per command
 ```
 
 | Set | Crate | Rust type | Styles in the name |
